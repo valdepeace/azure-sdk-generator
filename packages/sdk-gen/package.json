@@ -1,0 +1,36 @@
+{
+  "name": "@valdepeace/az-sdk-gen",
+  "version": "0.1.0",
+  "type": "module",
+  "bin": {
+    "az-sdk-gen": "dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "node --enable-source-maps dist/index.js",
+    "prepack": "pnpm build"
+  },
+  "dependencies": {
+    "@openapitools/openapi-generator-cli": "^2.15.4",
+    "commander": "^12.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.28",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/valdepeace/azure-sdk-generator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/valdepeace/azure-sdk-generator/issues"
+  },
+  "homepage": "https://github.com/valdepeace/azure-sdk-generator#readme"
+}

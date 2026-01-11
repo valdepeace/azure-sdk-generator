@@ -1,0 +1,19 @@
+{
+  "name": "azure-sdk-generator",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@9.0.0",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "pnpm -r build",
+    "dev": "pnpm --filter @valdepeace/az-sdk-gen dev",
+    "clean": "pnpm -r exec -- rm -rf dist && rm -rf packages/generated",
+    "list:apis": "pnpm --filter @valdepeace/az-sdk-gen dev -- list",
+    "resolve:graph": "pnpm --filter @valdepeace/az-sdk-gen dev -- resolve --api graph --api-version 7.1",
+    "gen:graph": "pnpm --filter @valdepeace/az-sdk-gen dev -- generate --api graph --api-version 7.1 --out packages/generated --scope @valdepeace",
+    "gen:all-latest": "pnpm --filter @valdepeace/az-sdk-gen dev -- generate-latest --ref master --out packages/generated --scope @valdepeace",
+    "publish:cli": "pnpm --filter @valdepeace/az-sdk-gen publish --access public"
+  }
+}
