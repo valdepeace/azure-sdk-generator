@@ -12,7 +12,7 @@ export function runOpenApiGenerate(opts: GenerateOptions) {
     .map(([k, v]) => `${k}=${v}`)
     .join(",");
 
-  const args = [
+  const baseArgs = [
     "@openapitools/openapi-generator-cli",
     "generate",
     "-g", opts.generator,
@@ -22,10 +22,17 @@ export function runOpenApiGenerate(opts: GenerateOptions) {
     "--skip-validate-spec"
   ];
 
-  const r = spawnSync("npx", args, {
+  let r = spawnSync("npx", baseArgs, {
     stdio: "inherit",
     shell: process.platform === "win32"
   });
+
+  if (r.status !== 0) {
+    r = spawnSync("pnpm", ["dlx", ...baseArgs], {
+      stdio: "inherit",
+      shell: process.platform === "win32"
+    });
+  }
 
   if (r.status !== 0) {
     throw new Error(`openapi-generator failed (status ${r.status})`);
