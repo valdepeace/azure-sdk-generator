@@ -25,10 +25,14 @@ The goal of this project is to provide a **reproducible, controlled, and reusabl
 npm install -D @valdepeace/az-sdk-gen
 ```
 
-Or run it directly without installing:
+Or run it directly without installing (using `npx` or `pnpm dlx`):
 
 ```bash
+# npm
 npx @valdepeace/az-sdk-gen --help
+
+# pnpm (recommended for pnpm workspaces)
+pnpm dlx @valdepeace/az-sdk-gen --help
 ```
 
 ---
@@ -39,6 +43,8 @@ npx @valdepeace/az-sdk-gen --help
 
 ```bash
 npx @valdepeace/az-sdk-gen list
+# or
+pnpm dlx @valdepeace/az-sdk-gen list
 ```
 
 ### List available versions for an API

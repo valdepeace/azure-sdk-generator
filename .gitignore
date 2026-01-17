@@ -9,6 +9,8 @@ pnpm-debug.log*
 # Builds
 dist/
 *.tsbuildinfo
+*.tgz
+package/
 
 # Generated SDKs (normalmente NO se versionan)
 packages/generated/
