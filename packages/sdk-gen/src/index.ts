@@ -40,14 +40,26 @@ const program = new Command();
 
 program
   .name("az-sdk-gen")
-  .description("Generador de SDKs (TypeScript) desde MicrosoftDocs/vsts-rest-api-specs")
-  .version("0.1.0");
+  .description("Generate TypeScript SDKs from MicrosoftDocs/vsts-rest-api-specs")
+  .version("0.1.3");
 
 program
   .command("list")
-  .description("Lista APIs o versiones disponibles")
-  .option("--api <api>", "API (graph, security, account, ...)")
-  .option("--ref <ref>", "Git ref (master, tag, commit)", "master")
+  .description("List available APIs or versions")
+  .option(
+    "--api <api>",
+    "API to inspect (graph, security, account, ...). When omitted, lists all APIs."
+  )
+  .option("--ref <ref>", "Git ref in vsts-rest-api-specs (master, tag, commit)", "master")
+  .addHelpText(
+    "after",
+    `
+Examples:
+  npx @valdepeace/az-sdk-gen list
+  npx @valdepeace/az-sdk-gen list --api graph
+  pnpm dlx @valdepeace/az-sdk-gen list --api graph --ref master
+`
+  )
   .action(async (opts) => {
     try {
       if (!opts.api) {
@@ -64,11 +76,18 @@ program
 
 program
   .command("resolve")
-  .description("Resuelve qué fichero JSON OpenAPI se usará")
-  .requiredOption("--api <api>", "API (graph, security, account, ...)")
+  .description("Resolve which OpenAPI JSON file will be used for a given API and version")
+  .requiredOption("--api <api>", "API to resolve (graph, security, account, ...)")
   .requiredOption("--api-version <version>", "API version (7.1, 7.2, ...)")
-  .option("--ref <ref>", "Git ref (master, tag, commit)", "master")
-  .option("--file <file>", "Override del fichero json (p.ej. accounts.json)")
+  .option("--ref <ref>", "Git ref in vsts-rest-api-specs (master, tag, commit)", "master")
+  .option("--file <file>", "Explicit JSON file name to use (e.g. accounts.json)")
+  .addHelpText(
+    "after",
+    `
+Example:
+  npx @valdepeace/az-sdk-gen resolve --api graph --api-version 7.1
+`
+  )
   .action(async (opts) => {
     try {
       const { jsons } = await listJsonFiles(opts.api, opts.apiVersion, opts.ref);
@@ -83,15 +102,28 @@ program
 
 program
   .command("generate")
-  .description("Genera un SDK TypeScript desde una spec")
-  .requiredOption("--api <api>", "API (graph, security, account, ...)")
+  .description("Generate a TypeScript SDK from a vsts-rest-api-specs OpenAPI document")
+  .requiredOption("--api <api>", "API to generate (graph, security, account, ...)")
   .requiredOption("--api-version <version>", "API version (7.1, 7.2, ...)")
-  .option("--ref <ref>", "Git ref (master, tag, commit)", "master")
-  .option("--file <file>", "Override del fichero json a usar")
-  .option("--out <dir>", "Directorio de salida", "packages/generated")
-  .option("--scope <scope>", "Scope npm (p.ej. @valdepeace)")
-  .option("--pkg-version <version>", "Versión del paquete npm generado", "0.1.0")
-  .option("--no-cache", "Deshabilita cache de specs")
+  .option("--ref <ref>", "Git ref in vsts-rest-api-specs (master, tag, commit)", "master")
+  .option("--file <file>", "Explicit JSON file name to use")
+  .option(
+    "--out <dir>",
+    "Root directory where generated packages will be created",
+    "packages/generated"
+  )
+  .option("--scope <scope>", "npm scope for generated packages (e.g. @valdepeace)")
+  .option("--pkg-version <version>", "Version for generated npm packages", "0.1.0")
+  .option("--no-cache", "Disable local caching of downloaded specs")
+  .addHelpText(
+    "after",
+    `
+Examples:
+  npx @valdepeace/az-sdk-gen generate --api graph --api-version 7.1
+  npx @valdepeace/az-sdk-gen generate --api graph --api-version 7.1 --out packages/generated --scope @valdepeace
+  pnpm dlx @valdepeace/az-sdk-gen generate --api graph --api-version 7.1 --out packages/generated --scope @valdepeace
+`
+  )
   .action(async (opts) => {
     try {
       const scope = normalizeScope(opts.scope);
@@ -191,12 +223,23 @@ function pickLatest(versions: string[]) {
 
 program
   .command("generate-latest")
-  .description("Genera SDKs para todas las APIs en su última versión")
-  .option("--ref <ref>", "Git ref (master, tag, commit)", "master")
-  .option("--out <dir>", "Directorio de salida", "packages/generated")
-  .option("--scope <scope>", "Scope npm (p.ej. @valdepeace)")
-  .option("--pkg-version <version>", "Versión del paquete npm generado", "0.1.0")
-  .option("--no-cache", "Deshabilita cache de specs")
+  .description("Generate SDKs for all APIs using their latest available version")
+  .option("--ref <ref>", "Git ref in vsts-rest-api-specs (master, tag, commit)", "master")
+  .option(
+    "--out <dir>",
+    "Root directory where generated packages will be created",
+    "packages/generated"
+  )
+  .option("--scope <scope>", "npm scope for generated packages (e.g. @valdepeace)")
+  .option("--pkg-version <version>", "Version for generated npm packages", "0.1.0")
+  .option("--no-cache", "Disable local caching of downloaded specs")
+  .addHelpText(
+    "after",
+    `
+Example:
+  npx @valdepeace/az-sdk-gen generate-latest --ref master --out packages/generated --scope @valdepeace
+`
+  )
   .action(async (opts) => {
     try {
       const scope = normalizeScope(opts.scope);
