@@ -38,19 +38,19 @@ npx @valdepeace/az-sdk-gen --help
 ### List available APIs
 
 ```bash
-npx az-sdk-gen list
+npx @valdepeace/az-sdk-gen list
 ```
 
 ### List available versions for an API
 
 ```bash
-npx az-sdk-gen list --api graph
+npx @valdepeace/az-sdk-gen list --api graph
 ```
 
 ### Resolve which OpenAPI spec will be used
 
 ```bash
-npx az-sdk-gen resolve --api graph --api-version 7.1
+npx @valdepeace/az-sdk-gen resolve --api graph --api-version 7.1
 ```
 
 Expected output:
@@ -65,11 +65,11 @@ https://raw.githubusercontent.com/MicrosoftDocs/vsts-rest-api-specs/master/speci
 ## 🛠️ Generate an SDK
 
 ```bash
-npx az-sdk-gen generate \
+npx @valdepeace/az-sdk-gen generate \
   --api graph \
   --api-version 7.1 \
   --out packages/generated \
-  --scope valdepeace
+  --scope @valdepeace
 ```
 
 This will generate an npm package at:
@@ -222,11 +222,11 @@ Example: Regenerating the SDK when specs change
 If Microsoft updates the OpenAPI specs, simply regenerate the SDK:
 
 ```bash
-npx az-sdk-gen generate \
+npx @valdepeace/az-sdk-gen generate \
   --api graph \
   --api-version 7.1 \
   --out packages/generated \
-  --scope valdepeace
+  --scope @valdepeace
   ```
 Then rebuild the package:
 
