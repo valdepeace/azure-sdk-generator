@@ -8,6 +8,7 @@
   "files": [
     "dist"
   ],
+  "readme": "# @valdepeace/az-sdk-gen\n\nCLI to generate TypeScript SDKs from Microsoft Azure DevOps OpenAPI specs (MicrosoftDocs/vsts-rest-api-specs).\n\nFull documentation and examples: https://github.com/valdepeace/azure-sdk-generator#readme\n",
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "dev": "node --enable-source-maps dist/index.js",
